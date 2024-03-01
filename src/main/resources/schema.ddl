@@ -79,3 +79,20 @@ CREATE TABLE `hospital`.`discharge_patient` (
 
 ALTER TABLE `hospital`.`admit_patient` 
 ADD COLUMN `Admit_And_Discharge_Status` VARCHAR(45) NOT NULL AFTER `admit_Date`;
+
+
+--Anu Muralasetti
+CREATE TABLE `treatment_details` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `admittance_id` int DEFAULT NULL,
+  `medicine_name` varchar(32) DEFAULT NULL,
+  `medicine_time` varchar(128) DEFAULT NULL,
+  `treatment_date` date DEFAULT NULL,
+  `bill` int DEFAULT NULL,
+  `bill_paid` varchar(32) DEFAULT NULL,
+  `payment_mode` varchar(32) DEFAULT NULL,
+  `created_by` varchar(32) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  
+  PRIMARY KEY (`id`)
+)
