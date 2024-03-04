@@ -1,5 +1,7 @@
 package com.spti.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -12,12 +14,17 @@ import org.springframework.stereotype.Service;
 
 import com.spti.dao.AdmitPatientRepository;
 import com.spti.dao.PatientRepository;
+import com.spti.dao.TreatmentRepository;
 import com.spti.dto.patient.AdmitPatientRequestDto;
 import com.spti.dto.patient.AdmitPatientResponseDto;
+import com.spti.dto.treatment.TreatmentRequest;
+import com.spti.dto.treatment.TreatmentResponse;
 import com.spti.entity.AdmitPatient;
 import com.spti.entity.Branch;
 import com.spti.entity.Patient;
+import com.spti.entity.Treatment;
 import com.spti.mapper.patient.AdmitPatientMapper;
+import com.spti.mapper.patient.TreatmentMapper;
 import com.spti.service.AdmitPatientService;
 
 @Service
@@ -31,6 +38,12 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 	
 	@Autowired
 	private PatientRepository patientRepository;
+	
+	@Autowired
+	private TreatmentMapper treatmentMapper;
+	
+	@Autowired
+	private TreatmentRepository treatmentRepository;
 
 	@Override
 	public boolean AdmitPatientAdd( AdmitPatientRequestDto dto) {
@@ -67,6 +80,32 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 		Page<AdmitPatient> entityPage = admitPatientRepository.findByAdmitDischargeStatus("Admit"  ,pageable );
 		return new PageImpl<>( admitPatientMapper.toList( entityPage.getContent() ), pageable, entityPage.getTotalElements() );
 	}
+
+	@Override
+	public boolean addAdmittedPatientTreatmentDetails(List<TreatmentRequest> treatmentRequestdto) {
+		List<Treatment> treatmentList=new ArrayList<Treatment>();
+				treatmentRequestdto.forEach(treatment->{
+					treatmentList.add(treatmentMapper.toEntity(treatment));
+				});
+				
+		return treatmentRepository.saveAll(treatmentList) != null;
+	}
+
+	@Override
+	public List<TreatmentResponse> getTreatmentDetailsByAdmittanceId(Long id) {
+		// TODO Auto-generated method stub
+		List<Treatment> treatmentList = treatmentRepository.findAllByAdmittanceId(id);
+		List<TreatmentResponse> treatmentResponseList=new ArrayList<TreatmentResponse>();
+		treatmentList.forEach(treatment->{
+			treatmentResponseList.add(treatmentMapper.toDto(treatment));
+		});
+		
+		return treatmentResponseList;
+	}
+
+	
+
+	
 
 
 

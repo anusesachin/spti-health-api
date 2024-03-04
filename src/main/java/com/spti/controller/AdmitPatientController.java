@@ -1,11 +1,14 @@
 package com.spti.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +22,8 @@ import com.spti.constants.MessageConstants;
 import com.spti.dto.patient.AdmitPatientRequestDto;
 import com.spti.dto.patient.AdmitPatientResponseDto;
 import com.spti.dto.patient.PatientResponseDto;
+import com.spti.dto.treatment.TreatmentRequest;
+import com.spti.dto.treatment.TreatmentResponse;
 import com.spti.service.AdmitPatientService;
 
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,5 +56,29 @@ public class AdmitPatientController {
 	@GetMapping
 	public ResponseEntity<Page<AdmitPatientResponseDto>> allAdmitPatients(@RequestBody  @RequestParam int pageNo, Pageable pageable ) {
 		return ResponseEntity.status( HttpStatus.OK ).body( admitPatientService.allAdmitPatients( PageRequest.of( pageNo, 50 ) ) );
+	}
+	
+	@PostMapping("/treatment/{id}")
+	public ResponseEntity<String> addAdmittedPatientTreatmentDetails(@RequestBody List<TreatmentRequest> treatmentRequestdto,@PathVariable Long id) {
+		AdmitPatientResponseDto admitPatientResponseDto = admitPatientService.getAdmitPatientBypatienId(id);
+		treatmentRequestdto.forEach(treatment->{
+			treatment.setAdmittanceId(admitPatientResponseDto.getId());
+		});
+		
+		boolean isTreatmentDetailsAdded=admitPatientService.addAdmittedPatientTreatmentDetails(treatmentRequestdto);
+		if(isTreatmentDetailsAdded)
+			return ResponseEntity.status(HttpStatus.CREATED).body(MessageConstants.ADD_Treatment_SUCCESS_MESSAGE);
+		else
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(MessageConstants.ADD_Treatment_ERROR_MESSAGE);
+		
+	}
+	
+	@GetMapping("/treatment/{id}")
+	public ResponseEntity<List<TreatmentResponse>> getTreatmentDetails(@PathVariable Long id) {
+		AdmitPatientResponseDto admitPatientResponseDto = admitPatientService.getAdmitPatientBypatienId(id);
+		List<TreatmentResponse> treatmentResponseList = admitPatientService.getTreatmentDetailsByAdmittanceId(admitPatientResponseDto.getId());
+		
+			return ResponseEntity.status(HttpStatus.OK).body(treatmentResponseList);
+		
 	}
 }
