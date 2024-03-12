@@ -17,10 +17,10 @@ CREATE TABLE `treatment_details` (
 )
 
 alter table hospital.admit_patient add column
-`mLC_No` int NOT NULL,
- add column `IPD_No` int NOT NULL,
- add column `consultatnt` varchar(45) NOT NULL,
- add column `diagnosis` varchar(45) NOT NULL,
- add column `clinical_History` varchar(45) NOT NULL,
- add column `amount_paid` int NOT NULL,
- add column `amount_tobepaid` int NOT NULL
+`mLC_No` int ,
+ add column `IPD_No` int ,
+ add column `consultatnt` varchar(45) ,
+ add column `diagnosis` varchar(45) ,
+ add column `clinical_History` varchar(45) ,
+ add column `amount_paid` int ,
+ add column `amount_tobepaid` int 
