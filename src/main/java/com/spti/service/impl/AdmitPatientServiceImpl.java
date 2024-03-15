@@ -65,7 +65,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 
 	@Override
 	public AdmitPatientResponseDto getAdmitPatientBypatienId(Long id) {
-		Optional<AdmitPatient> admitPatient = admitPatientRepository.findByPatient_id( id );
+		Optional<AdmitPatient> admitPatient = admitPatientRepository.findByPatient_idAndAdmitDischargeStatus( id ,"Admit" );
 		
 				if ( admitPatient.isPresent() )
 					return admitPatientMapper.toDto( admitPatient.get() );
