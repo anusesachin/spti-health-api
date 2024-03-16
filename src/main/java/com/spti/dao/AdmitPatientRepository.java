@@ -20,4 +20,8 @@ public interface AdmitPatientRepository extends CrudRepository<AdmitPatient, Lon
 
 	Page<AdmitPatient> findByAdmitDischargeStatus(String string, Pageable pageable);
 
+
+
+    Optional<AdmitPatient> findByPatient_idAndAdmitDischargeStatus(Long id, String string);
+
 }

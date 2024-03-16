@@ -33,18 +33,17 @@ public class DischargePatientServiceImpl implements DischargePatientService {
 	@Override
 	public boolean dischargePatienAdd(DischargePatientRequestDto dto) {
 		try {
-			DischargePatient entity = dischargePatientMapper.toEntity( dto );
+			AdmitPatient entity = dischargePatientMapper.toEntity( dto );
 			
 			Optional<Patient> opt = patientRepository.findById(dto.getPatientId());
-			Optional<AdmitPatient> admitPatient = admitPatientRepository.findByPatient_id( dto.getPatientId() );
+			Optional<AdmitPatient> admitPatient = admitPatientRepository.findByPatient_idAndAdmitDischargeStatus( dto.getPatientId(),"Admit" );
 			if (opt.isPresent() ||admitPatient.isPresent() ) {
 				entity.setPatient(opt.get());
-				entity.setAdmitPatient(admitPatient.get());
-				dischargePatientRepository.save( entity );
-				
 				AdmitPatient admitPatient2 = admitPatient.get();
+				entity.setId(admitPatient2.getId());
+				entity.setAdmissionDate(admitPatient2.getAdmissionDate());
 				admitPatient2.setAdmitDischargeStatus(dto.getAdmitDischargeStatus());
-				admitPatientRepository.save( admitPatient2 );
+				admitPatientRepository.save(entity);
 				return true;
 			}
 		} catch ( Exception e ) {

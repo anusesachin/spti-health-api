@@ -37,5 +37,29 @@ public class AdmitPatient {
 	@Column( name = "admit_Date" )
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime admissionDate;
+
+	@Column( name = "mLC_No" )
+	private Long MLCNo;
+
+	@Column( name = "IPD_No" )
+	private Long IPDNo;
+
+	@Column( name = "consultatnt" )
+	private String consultatnt;
+
+	@Column( name = "diagnosis" )
+	private String diagnosis;
+
+	@Column( name = "clinical_History" )
+	private String clinicalHistory;
+
+	@Column( name = "amount_paid" )
+	private Long amountPaid;
+
+	@Column( name = "amount_tobepaid" )
+	private Long amounttobePaid;
+
+	@Column(name="discharged_at")
+	private LocalDateTime dischargedAt;
 	
 }

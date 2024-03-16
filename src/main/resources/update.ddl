@@ -23,4 +23,5 @@ alter table hospital.admit_patient add column
  add column `diagnosis` varchar(45) ,
  add column `clinical_History` varchar(45) ,
  add column `amount_paid` int ,
- add column `amount_tobepaid` int 
+ add column `amount_tobepaid` int ,
+ add column `discharged_at` datetime  NULL
