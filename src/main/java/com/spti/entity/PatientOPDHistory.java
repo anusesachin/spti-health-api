@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,22 +28,31 @@ public class PatientOPDHistory {
 	@GeneratedValue( strategy = GenerationType.AUTO )
 	@Column( name = "id" )
 	private Long id;
-
+    
+	@NotBlank
 	@Column( name = "seen_by_doctor" )
 	private String seenByDoctor;
-
+    
+	@NotBlank
 	@Column( name = "diagnosis" )
 	private String diagnosis;
-
+    
+	@NotBlank
 	@Column( name = "treatment" )
 	private String treatment;
-
+    
+	@PositiveOrZero
+	@NotBlank
 	@Column( name = "bill" )
 	private String bill;
 	
+	@PositiveOrZero
+	@NotBlank
 	@Column( name = "pending_amount" )
 	private String pendingAmount;
-
+    
+	
+	@NotNull
 	@Column( name = "bill_Status" )
 	private String billStatus;
 
@@ -54,6 +66,7 @@ public class PatientOPDHistory {
 	@Column( name = "treatment_Date" )
 	private LocalDate treatmentDate;
 	
+	@NotBlank
 	@Column( name = "payment_type" )
 	private String paymentType;
 }
