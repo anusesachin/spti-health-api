@@ -56,4 +56,10 @@ public class PatientOPDHistory {
 	
 	@Column( name = "payment_type" )
 	private String paymentType;
+	
+	@Column( name = "note" )
+	private String Note;
+	
 }
+
+
