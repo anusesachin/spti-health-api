@@ -24,4 +24,8 @@ public interface AdmitPatientService {
 
 	List<TreatmentResponse> getTreatmentDetailsByAdmittanceId(Long id);
 
+	List<AdmitPatientResponseDto> GetTodayAdmitPatient(String todayrecord);
+
+	List<AdmitPatientResponseDto> GetTodayDischargePatient(String todayrecord);
+
 }

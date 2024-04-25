@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spti.constants.MessageConstants;
 import com.spti.dto.patient.AdmitPatientRequestDto;
 import com.spti.dto.patient.AdmitPatientResponseDto;
+import com.spti.dto.patient.PatientOPDHistoryResponseDto;
 import com.spti.dto.patient.PatientResponseDto;
 import com.spti.dto.treatment.TreatmentRequest;
 import com.spti.dto.treatment.TreatmentResponse;
@@ -79,6 +80,19 @@ public class AdmitPatientController {
 		List<TreatmentResponse> treatmentResponseList = admitPatientService.getTreatmentDetailsByAdmittanceId(admitPatientResponseDto.getId());
 		
 			return ResponseEntity.status(HttpStatus.OK).body(treatmentResponseList);
+		
+	}
+	
+	@GetMapping( "/todayAdmitPatientDashbord/{todayrecord}" )
+	public List<AdmitPatientResponseDto> GetTodayAdmitPatient(@PathVariable String todayrecord  ) {
+		
+		return  admitPatientService.GetTodayAdmitPatient(todayrecord);
+	}
+	
+	@GetMapping( "/disacharge/todayDischargePatientDashbord/{todayrecord}" )
+	public List<AdmitPatientResponseDto> GetTodayDischargePatient(@PathVariable String todayrecord  ) {
+		System.out.println("Work");
+		return  admitPatientService. GetTodayDischargePatient(todayrecord);
 		
 	}
 }
