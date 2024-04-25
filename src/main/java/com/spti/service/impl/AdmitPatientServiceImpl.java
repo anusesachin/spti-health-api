@@ -48,7 +48,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 	@Autowired
 	private TreatmentRepository treatmentRepository;
 
-	@Override
+	@Override  
 	public boolean AdmitPatientAdd( AdmitPatientRequestDto dto) {
 		try {
 			AdmitPatient entity = admitPatientMapper.toEntity( dto );

@@ -15,7 +15,7 @@ import com.spti.dto.treatment.TreatmentResponse;
 public interface AdmitPatientService {
 
 	boolean AdmitPatientAdd(@Valid AdmitPatientRequestDto dto);
-
+   
 	AdmitPatientResponseDto getAdmitPatientBypatienId(Long id);
 
 	Page<AdmitPatientResponseDto> allAdmitPatients(Pageable pageable);

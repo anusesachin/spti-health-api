@@ -91,7 +91,7 @@ public class AdmitPatientController {
 	
 	@GetMapping( "/disacharge/todayDischargePatientDashbord/{todayrecord}" )
 	public List<AdmitPatientResponseDto> GetTodayDischargePatient(@PathVariable String todayrecord  ) {
-		System.out.println("Work");
+		System.out.println("Work");  
 		return  admitPatientService. GetTodayDischargePatient(todayrecord);
 		
 	}

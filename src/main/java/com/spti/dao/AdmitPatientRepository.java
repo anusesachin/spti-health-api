@@ -15,7 +15,7 @@ import com.spti.dto.patient.AdmitPatientResponseDto;
 import com.spti.entity.AdmitPatient;
 import com.spti.entity.Patient;
 import com.spti.entity.PatientOPDHistory;
-
+   
 @Repository
 public interface AdmitPatientRepository extends CrudRepository<AdmitPatient, Long>{
 
