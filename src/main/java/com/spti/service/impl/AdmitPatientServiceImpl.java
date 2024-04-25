@@ -1,5 +1,6 @@
 package com.spti.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +18,13 @@ import com.spti.dao.PatientRepository;
 import com.spti.dao.TreatmentRepository;
 import com.spti.dto.patient.AdmitPatientRequestDto;
 import com.spti.dto.patient.AdmitPatientResponseDto;
+import com.spti.dto.patient.PatientOPDHistoryResponseDto;
 import com.spti.dto.treatment.TreatmentRequest;
 import com.spti.dto.treatment.TreatmentResponse;
 import com.spti.entity.AdmitPatient;
 import com.spti.entity.Branch;
 import com.spti.entity.Patient;
+import com.spti.entity.PatientOPDHistory;
 import com.spti.entity.Treatment;
 import com.spti.mapper.patient.AdmitPatientMapper;
 import com.spti.mapper.patient.TreatmentMapper;
@@ -42,10 +45,10 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 	@Autowired
 	private TreatmentMapper treatmentMapper;
 	
-	@Autowired
+	@Autowired    
 	private TreatmentRepository treatmentRepository;
 
-	@Override
+	@Override  
 	public boolean AdmitPatientAdd( AdmitPatientRequestDto dto) {
 		try {
 			AdmitPatient entity = admitPatientMapper.toEntity( dto );
@@ -53,6 +56,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 			Optional<Patient> opt = patientRepository.findById(dto.getPatientId());
 			if (opt.isPresent()) {
 				entity.setPatient(opt.get());
+				LocalDate date = LocalDate.now();
 				admitPatientRepository.save( entity );
 				return true;
 			}
@@ -105,9 +109,64 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 
 	
 
+	@Override
+	public List<AdmitPatientResponseDto> GetTodayAdmitPatient(String todayrecord) {
+		
+
+		    if (todayrecord.equalsIgnoreCase("Today OpdPatient And Bill")) {
+		    	LocalDate date = LocalDate.now();
+		       
+		    	List<AdmitPatient> entityPage = admitPatientRepository.findByAdmissionDateAndAdmitDischargeStatus(date, "Admit");
+		       
+		    	return admitPatientMapper.toResponseList(entityPage);
+		    } else if (todayrecord.equalsIgnoreCase("weeklyrecord")) {
+		        LocalDate endDate =LocalDate.now();
+		        LocalDate startDate = endDate.minusDays(7);
+		        
+		        List<AdmitPatient> entityPage = admitPatientRepository.findAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate, endDate, "Admit");
+		       
+		       
+		         return admitPatientMapper.toResponseList(entityPage);
+		    } else {
+		        LocalDate endDate = LocalDate.now();
+		        LocalDate startDate = endDate.minusDays(30);
+		        
+		        List<AdmitPatient> entityPage = admitPatientRepository.findAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate, endDate, "Admit");
+		       
+		        return admitPatientMapper.toResponseList(entityPage);
+		    }
+	}
+
+     
 	
-
-
+	@Override
+	public List<AdmitPatientResponseDto> GetTodayDischargePatient(String todayrecord) {
+		
+		if (todayrecord.equalsIgnoreCase("Today OpdPatient And Bill")) {
+			LocalDate date = LocalDate.now();
+			List<AdmitPatient> entityPage = admitPatientRepository.findByAdmissionDateAndAdmitDischargeStatus(date,"Discharge");
+			return (admitPatientMapper.toResponseList(entityPage));			
+		}
+		else if (todayrecord.equalsIgnoreCase("weeklyrecord")) {
+			
+			LocalDate enddate = LocalDate.now();
+			LocalDate startDate = enddate.minusDays(7);
+			  
+			List<AdmitPatient> entityPage = admitPatientRepository.findAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate,enddate, "Discharge");
+			
+			return (admitPatientMapper.toResponseList(entityPage));
+			
+		}
+		else {
+			
+		    LocalDate enddate = LocalDate.now();
+		    LocalDate startDate = enddate.minusDays(30);
+		  
+		    List<AdmitPatient> entityPage = admitPatientRepository.findAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate,enddate, "Discharge");
+			
+		    return (admitPatientMapper.toResponseList(entityPage));
+		}
+	}
 
 	
 	
