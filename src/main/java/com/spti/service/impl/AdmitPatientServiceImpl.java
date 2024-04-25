@@ -45,7 +45,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 	@Autowired
 	private TreatmentMapper treatmentMapper;
 	
-	@Autowired
+	@Autowired    
 	private TreatmentRepository treatmentRepository;
 
 	@Override  

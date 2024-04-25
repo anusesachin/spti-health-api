@@ -17,7 +17,7 @@ import com.spti.entity.PatientOPDHistory;
 
 @Component
 public class AdmitPatientMapper {
-    
+        
 	public AdmitPatient toEntity( AdmitPatientRequestDto dto) {
 		AdmitPatient entity = new AdmitPatient();
 		
