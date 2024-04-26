@@ -32,6 +32,7 @@ public class PatientOPDHistoryResponseDto {
 	private float totalBillOpd;
 	private float totalPendingBill;
 	private float totalPaidBill;
+	private String Note;
 	
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	private LocalDateTime dateOfTreatment;

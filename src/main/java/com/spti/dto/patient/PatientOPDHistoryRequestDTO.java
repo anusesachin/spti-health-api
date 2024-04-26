@@ -22,6 +22,7 @@ public class PatientOPDHistoryRequestDTO {
 	private int branch;
 	private String pendingAmount;
 	private String paymentType;
+	private String Note;
 
 	private LocalDate treatmentDate;
 	

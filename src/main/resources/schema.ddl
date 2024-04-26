@@ -54,6 +54,11 @@ ADD COLUMN `treatment_Date` DATE NULL AFTER `bill_Status`;
 ALTER TABLE `hospital`.`patients_opd_history` 
 ADD COLUMN `payment_type` VARCHAR(45) NULL AFTER `date_of_treatment`;
 
+ALTER TABLE `hospital`.`patients_opd_history` 
+CHANGE COLUMN `treatment` `treatment` VARCHAR(500) NULL DEFAULT NULL ,
+CHANGE COLUMN `note` `note` VARCHAR(600) NULL DEFAULT NULL ;
+
+
 CREATE TABLE `admit_patient` (
   `id` int NOT NULL AUTO_INCREMENT,
   `admit_Date` timestamp NULL DEFAULT NULL,
