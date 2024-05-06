@@ -50,13 +50,6 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 	@Autowired
 	private TreatmentRepository treatmentRepository;
 
-	@Override
-	public boolean AdmitPatientAdd(AdmitPatientRequestDto dto) {
-
-	
-	@Autowired    
-	private TreatmentRepository treatmentRepository;
-
 	@Override  
 	public boolean AdmitPatientAdd( AdmitPatientRequestDto dto) {
 
@@ -145,7 +138,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 			return admitPatientMapper.toPatientResponseDtoList(admitPatientsRandom);
 		else
 			return null;
-
+	}
 	@Override
 	public List<AdmitPatientResponseDto> GetTodayAdmitPatient(String todayrecord) {
 		
