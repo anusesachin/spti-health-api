@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 
 import com.spti.dto.patient.AdmitPatientRequestDto;
 import com.spti.dto.patient.AdmitPatientResponseDto;
+import com.spti.dto.patient.PatientOPDHistoryResponseDto;
 import com.spti.dto.patient.PatientResponseDto;
 import com.spti.entity.AdmitPatient;
 import com.spti.entity.Patient;
+import com.spti.entity.PatientOPDHistory;
 
 @Component
 public class AdmitPatientMapper {
@@ -23,8 +25,15 @@ public class AdmitPatientMapper {
 		entity.setId(dto.getId());
 		entity.setAdmitDischargeStatus(dto.getAdmitDischargeStatus());
 		entity.setAdmissionDate(dto.getAdmissionDate());
-
 		return entity;
+        
+	public AdmitPatient toEntity( AdmitPatientRequestDto dto) {
+		AdmitPatient entity = new AdmitPatient();		
+				entity.setId( dto.getId() );
+				entity.setAdmitDischargeStatus("Admit");
+				entity.setAdmissionDate( dto.getAdmissionDate() );		
+				return entity;
+
 	}
 
 	public AdmitPatientResponseDto toDto(AdmitPatient admitPatient) {
@@ -52,12 +61,56 @@ public class AdmitPatientMapper {
 		return patientResponseDto;
 	}
 
+
 	public List<AdmitPatientResponseDto> toList(List<AdmitPatient> content) {
 		List<AdmitPatientResponseDto> list = new ArrayList<>();
 		for (AdmitPatient dto : content)
 			list.add(toDto(dto));
 		return list;
 	}
+
+		public List<AdmitPatientResponseDto> toList( List<AdmitPatient> content ) {
+			List<AdmitPatientResponseDto> list = new ArrayList<>();
+			for ( AdmitPatient dto : content )
+				list.add( toDto( dto ) );
+			return list;
+		}
+		
+		
+		 public PatientResponseDto toPtientDto(Patient entity) { 
+			  
+			  PatientResponseDto patient = new PatientResponseDto();
+			  patient.setId(entity.getId());
+			  patient.setFirstName(entity.getFirstName());
+			  patient.setLastName(entity.getLastName());
+			  patient.setPhoneNumber(entity.getPhoneNumber());
+			  
+			  return patient;
+			  
+			  }
+		
+		
+		public AdmitPatientResponseDto toResponseDTO( AdmitPatient entity ) {
+			AdmitPatientResponseDto dto = new AdmitPatientResponseDto();
+
+         dto.setId(entity.getId());
+         dto.setAdmissionDate(entity.getAdmissionDate());
+         dto.setAdmitDischargeStatus(entity.getAdmitDischargeStatus());
+         dto.setPatient(toPtientDto(entity.getPatient()));
+			
+			return dto;
+		}
+		
+		
+
+		public List<AdmitPatientResponseDto> toResponseList(List<AdmitPatient> list) {
+			List<AdmitPatientResponseDto> reslist = new ArrayList<>();
+			for (AdmitPatient dto : list) {
+				reslist.add(toResponseDTO(dto));
+			}
+			return reslist;
+		}
+
 
 	public List<PatientResponseDto> toPatientResponseDtoList(List<AdmitPatient> admitPatients) {
 		return admitPatients.stream().map(this::toPatientResponseDto).collect(Collectors.toList());

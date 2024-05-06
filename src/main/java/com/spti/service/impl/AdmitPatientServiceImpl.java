@@ -7,16 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.spti.dao.AdmitPatientRepository;
 import com.spti.dao.PatientRepository;
 import com.spti.dao.TreatmentRepository;
@@ -55,6 +52,14 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 
 	@Override
 	public boolean AdmitPatientAdd(AdmitPatientRequestDto dto) {
+
+	
+	@Autowired    
+	private TreatmentRepository treatmentRepository;
+
+	@Override  
+	public boolean AdmitPatientAdd( AdmitPatientRequestDto dto) {
+
 		try {
 			AdmitPatient entity = admitPatientMapper.toEntity(dto);
 
@@ -62,6 +67,8 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 			if (opt.isPresent()) {
 				entity.setPatient(opt.get());
 				admitPatientRepository.save(entity);
+				LocalDate date = LocalDate.now();
+				admitPatientRepository.save( entity );
 				return true;
 			}
 		} catch (Exception e) {
@@ -113,6 +120,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 		return treatmentResponseList;
 	}
 
+
 	@Override
 	public List<PatientResponseDto> findByAdmissionDate(LocalDate admissionDate) {
 		List<AdmitPatient> admitPatientsDates = admitPatientRepository.findByAdmissionDate(admissionDate);
@@ -137,6 +145,64 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 			return admitPatientMapper.toPatientResponseDtoList(admitPatientsRandom);
 		else
 			return null;
+
+	@Override
+	public List<AdmitPatientResponseDto> GetTodayAdmitPatient(String todayrecord) {
+		
+
+		    if (todayrecord.equalsIgnoreCase("Today OpdPatient And Bill")) {
+		    	LocalDate date = LocalDate.now();
+		       
+		    	List<AdmitPatient> entityPage = admitPatientRepository.findByAdmissionDateAndAdmitDischargeStatus(date, "Admit");
+		       
+		    	return admitPatientMapper.toResponseList(entityPage);
+		    } else if (todayrecord.equalsIgnoreCase("weeklyrecord")) {
+		        LocalDate endDate =LocalDate.now();
+		        LocalDate startDate = endDate.minusDays(7);
+		        
+		        List<AdmitPatient> entityPage = admitPatientRepository.findAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate, endDate, "Admit");
+		       
+		       
+		         return admitPatientMapper.toResponseList(entityPage);
+		    } else {
+		        LocalDate endDate = LocalDate.now();
+		        LocalDate startDate = endDate.minusDays(30);
+		        
+		        List<AdmitPatient> entityPage = admitPatientRepository.findAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate, endDate, "Admit");
+		       
+		        return admitPatientMapper.toResponseList(entityPage);
+		    }
+	}
+     
+	
+	@Override
+	public List<AdmitPatientResponseDto> GetTodayDischargePatient(String todayrecord) {
+		
+		if (todayrecord.equalsIgnoreCase("Today OpdPatient And Bill")) {
+			LocalDate date = LocalDate.now();
+			List<AdmitPatient> entityPage = admitPatientRepository.findByAdmissionDateAndAdmitDischargeStatus(date,"Discharge");
+			return (admitPatientMapper.toResponseList(entityPage));			
+		}
+		else if (todayrecord.equalsIgnoreCase("weeklyrecord")) {
+			
+			LocalDate enddate = LocalDate.now();
+			LocalDate startDate = enddate.minusDays(7);
+			  
+			List<AdmitPatient> entityPage = admitPatientRepository.findAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate,enddate, "Discharge");
+			
+			return (admitPatientMapper.toResponseList(entityPage));
+			
+		}
+		else {
+			
+		    LocalDate enddate = LocalDate.now();
+		    LocalDate startDate = enddate.minusDays(30);
+		  
+		    List<AdmitPatient> entityPage = admitPatientRepository.findAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate,enddate, "Discharge");
+			
+		    return (admitPatientMapper.toResponseList(entityPage));
+		}
+
 	}
 
 	@Override

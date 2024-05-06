@@ -141,7 +141,17 @@ public class AdmitPatientController {
 	    return ResponseEntity.ok(listOfPatients);
 	}
 
+	@GetMapping( "/todayAdmitPatientDashbord/{todayrecord}" )
+	public List<AdmitPatientResponseDto> GetTodayAdmitPatient(@PathVariable String todayrecord  ) {
+		
+		return  admitPatientService.GetTodayAdmitPatient(todayrecord);
+	}
+	  
+	@GetMapping( "/disacharge/todayDischargePatientDashbord/{todayrecord}" )
+	public List<AdmitPatientResponseDto> GetTodayDischargePatient(@PathVariable String todayrecord  ) {
+		System.out.println("Work");  
+		return  admitPatientService. GetTodayDischargePatient(todayrecord);
+		
+	}
 
-
-	
 }

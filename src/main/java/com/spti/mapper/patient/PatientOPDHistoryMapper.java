@@ -89,6 +89,7 @@ public class PatientOPDHistoryMapper {
 		history.setTreatmentDate(LocalDate.now());
 		history.setDateOfTreatment(LocalDateTime.now());
 		history.setPaymentType(dto.getPaymentType());
+		history.setNote(dto.getNote());
 
 		return history;
 	}
