@@ -1,9 +1,11 @@
 package com.spti.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
-
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +27,7 @@ import com.spti.dto.patient.PatientOPDHistoryResponseDto;
 import com.spti.dto.patient.PatientResponseDto;
 import com.spti.dto.treatment.TreatmentRequest;
 import com.spti.dto.treatment.TreatmentResponse;
+import com.spti.entity.AdmitPatient;
 import com.spti.service.AdmitPatientService;
 
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,50 +42,105 @@ public class AdmitPatientController {
 	private AdmitPatientService admitPatientService;
 
 	@PostMapping
-	public ResponseEntity<String> AdmitPatientAdd(  @RequestBody AdmitPatientRequestDto dto ) {
-		boolean isAdded = admitPatientService.AdmitPatientAdd( dto );
-		if ( isAdded )
-			return ResponseEntity.status( HttpStatus.CREATED ).body( MessageConstants.ADD_ADMISSION_SUCCESS_MESSAGE );
+	public ResponseEntity<String> AdmitPatientAdd(@RequestBody AdmitPatientRequestDto dto) {
+		boolean isAdded = admitPatientService.AdmitPatientAdd(dto);
+		if (isAdded)
+			return ResponseEntity.status(HttpStatus.CREATED).body(MessageConstants.ADD_ADMISSION_SUCCESS_MESSAGE);
 
 		else
-			return ResponseEntity.status( HttpStatus.BAD_REQUEST ).body( MessageConstants.ADD_ADMISSION_ERROR_MESSAGE );
-		
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(MessageConstants.ADD_ADMISSION_ERROR_MESSAGE);
+
 	}
-	
-	@GetMapping( "/patient/id/{id}" )
-	public ResponseEntity<AdmitPatientResponseDto> getAdmitPatientBypatienId( @PathVariable Long id ) {
-		return ResponseEntity.status( HttpStatus.OK ).body( admitPatientService.getAdmitPatientBypatienId( id ) );
+
+	@GetMapping("/patient/id/{id}")
+	public ResponseEntity<AdmitPatientResponseDto> getAdmitPatientBypatienId(@PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.OK).body(admitPatientService.getAdmitPatientBypatienId(id));
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<Page<AdmitPatientResponseDto>> allAdmitPatients(@RequestBody  @RequestParam int pageNo, Pageable pageable ) {
-		return ResponseEntity.status( HttpStatus.OK ).body( admitPatientService.allAdmitPatients( PageRequest.of( pageNo, 50 ) ) );
+	public ResponseEntity<Page<AdmitPatientResponseDto>> allAdmitPatients(@RequestBody @RequestParam int pageNo,
+			Pageable pageable) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(admitPatientService.allAdmitPatients(PageRequest.of(pageNo, 50)));
 	}
-	
+
 	@PostMapping("/treatment/{id}")
-	public ResponseEntity<String> addAdmittedPatientTreatmentDetails(@RequestBody List<TreatmentRequest> treatmentRequestdto,@PathVariable Long id) {
+	public ResponseEntity<String> addAdmittedPatientTreatmentDetails(
+			@RequestBody List<TreatmentRequest> treatmentRequestdto, @PathVariable Long id) {
 		AdmitPatientResponseDto admitPatientResponseDto = admitPatientService.getAdmitPatientBypatienId(id);
-		treatmentRequestdto.forEach(treatment->{
+		treatmentRequestdto.forEach(treatment -> {
 			treatment.setAdmittanceId(admitPatientResponseDto.getId());
 		});
-		
-		boolean isTreatmentDetailsAdded=admitPatientService.addAdmittedPatientTreatmentDetails(treatmentRequestdto);
-		if(isTreatmentDetailsAdded)
+
+		boolean isTreatmentDetailsAdded = admitPatientService.addAdmittedPatientTreatmentDetails(treatmentRequestdto);
+		if (isTreatmentDetailsAdded)
 			return ResponseEntity.status(HttpStatus.CREATED).body(MessageConstants.ADD_Treatment_SUCCESS_MESSAGE);
 		else
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(MessageConstants.ADD_Treatment_ERROR_MESSAGE);
-		
+
 	}
-	
+
 	@GetMapping("/treatment/{id}")
 	public ResponseEntity<List<TreatmentResponse>> getTreatmentDetails(@PathVariable Long id) {
 		AdmitPatientResponseDto admitPatientResponseDto = admitPatientService.getAdmitPatientBypatienId(id);
-		List<TreatmentResponse> treatmentResponseList = admitPatientService.getTreatmentDetailsByAdmittanceId(admitPatientResponseDto.getId());
-		
-			return ResponseEntity.status(HttpStatus.OK).body(treatmentResponseList);
-		
+		List<TreatmentResponse> treatmentResponseList = admitPatientService
+				.getTreatmentDetailsByAdmittanceId(admitPatientResponseDto.getId());
+
+		return ResponseEntity.status(HttpStatus.OK).body(treatmentResponseList);
+
+	}
+
+	@GetMapping("/getByTodaysPatient/{admissionDate}")
+	public ResponseEntity<List<PatientResponseDto>> getPatientByTodays(
+			@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate admissionDate) {
+		List<PatientResponseDto> admitPatientByTodays = admitPatientService.findByAdmissionDate(admissionDate);
+		if (admitPatientByTodays != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(admitPatientByTodays);
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(admitPatientByTodays);
+		}
+	}
+
+	@GetMapping("/getByYear/{year}")
+	public ResponseEntity<List<PatientResponseDto>> getPatientByYear(@PathVariable int year) {
+		List<PatientResponseDto> admitPatientByYear = admitPatientService.findByYear(year);
+		if (admitPatientByYear != null)
+			return ResponseEntity.status(HttpStatus.OK).body(admitPatientByYear);
+		else
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(admitPatientByYear);
+
+	}
+
+	@GetMapping("/admit-patients/{startDate}/{endDate}")
+	public ResponseEntity<List<PatientResponseDto>> getAdmitPatientsRandomDates(
+			@PathVariable("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+			@PathVariable("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+		List<PatientResponseDto> admitPatientRandomDates = admitPatientService.getPatientsBetweenDates(startDate,
+				endDate);
+		if (admitPatientRandomDates != null)
+			return ResponseEntity.status(HttpStatus.OK).body(admitPatientRandomDates);
+		else
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(admitPatientRandomDates);
 	}
 	
+	@GetMapping("/getAllPatient")
+	public ResponseEntity<List<PatientResponseDto>> getAllPatients(){
+		List<PatientResponseDto> patientResponseAllPatients = admitPatientService.findAllPatient();
+		if (patientResponseAllPatients != null)
+			return ResponseEntity.status(HttpStatus.OK).body(patientResponseAllPatients);
+		else
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(patientResponseAllPatients);
+	}
+	
+	@GetMapping("/todaysPatient/{date}")
+	public ResponseEntity<?> getListOfPatients(@PathVariable("date") String date) {
+	    List<PatientResponseDto> listOfPatients = admitPatientService.getListOfPatient(date);
+	    if (listOfPatients.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(listOfPatients);
+	    }
+	    return ResponseEntity.ok(listOfPatients);
+	}
+
 	@GetMapping( "/todayAdmitPatientDashbord/{todayrecord}" )
 	public List<AdmitPatientResponseDto> GetTodayAdmitPatient(@PathVariable String todayrecord  ) {
 		
@@ -95,4 +153,5 @@ public class AdmitPatientController {
 		return  admitPatientService. GetTodayDischargePatient(todayrecord);
 		
 	}
+
 }

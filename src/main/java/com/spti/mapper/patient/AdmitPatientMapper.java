@@ -2,6 +2,7 @@ package com.spti.mapper.patient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -17,15 +18,22 @@ import com.spti.entity.PatientOPDHistory;
 
 @Component
 public class AdmitPatientMapper {
+
+	public AdmitPatient toEntity(AdmitPatientRequestDto dto) {
+		AdmitPatient entity = new AdmitPatient();
+
+		entity.setId(dto.getId());
+		entity.setAdmitDischargeStatus(dto.getAdmitDischargeStatus());
+		entity.setAdmissionDate(dto.getAdmissionDate());
+		return entity;
         
 	public AdmitPatient toEntity( AdmitPatientRequestDto dto) {
-		AdmitPatient entity = new AdmitPatient();
-		
+		AdmitPatient entity = new AdmitPatient();		
 				entity.setId( dto.getId() );
 				entity.setAdmitDischargeStatus("Admit");
-				entity.setAdmissionDate( dto.getAdmissionDate() );
-				
+				entity.setAdmissionDate( dto.getAdmissionDate() );		
 				return entity;
+
 	}
 
 	public AdmitPatientResponseDto toDto(AdmitPatient admitPatient) {
@@ -34,11 +42,11 @@ public class AdmitPatientMapper {
 		admitPatientResponseDto.setAdmitDischargeStatus(admitPatient.getAdmitDischargeStatus());
 		admitPatientResponseDto.setAdmissionDate(admitPatient.getAdmissionDate());
 		admitPatientResponseDto.setPatient(topatientResponesDto(admitPatient.getPatient()));
-		
+
 		return admitPatientResponseDto;
 	}
 
-		private PatientResponseDto topatientResponesDto(Patient patient) {
+	private PatientResponseDto topatientResponesDto(Patient patient) {
 		PatientResponseDto patientResponseDto = new PatientResponseDto();
 		patientResponseDto.setFirstName(patient.getFirstName());
 		patientResponseDto.setLastName(patient.getLastName());
@@ -49,8 +57,16 @@ public class AdmitPatientMapper {
 		patientResponseDto.setPhoneNumber(patient.getPhoneNumber());
 		patientResponseDto.setId(patient.getId());
 		patientResponseDto.setBranch(patient.getBranch().getId());
-		
+
 		return patientResponseDto;
+	}
+
+
+	public List<AdmitPatientResponseDto> toList(List<AdmitPatient> content) {
+		List<AdmitPatientResponseDto> list = new ArrayList<>();
+		for (AdmitPatient dto : content)
+			list.add(toDto(dto));
+		return list;
 	}
 
 		public List<AdmitPatientResponseDto> toList( List<AdmitPatient> content ) {
@@ -96,6 +112,24 @@ public class AdmitPatientMapper {
 		}
 
 
+	public List<PatientResponseDto> toPatientResponseDtoList(List<AdmitPatient> admitPatients) {
+		return admitPatients.stream().map(this::toPatientResponseDto).collect(Collectors.toList());
+	}
 
+	public PatientResponseDto toPatientResponseDto(AdmitPatient admitPatient) {
+		PatientResponseDto patientResponseDto = new PatientResponseDto();
+		// Assuming you have methods to retrieve patient information from AdmitPatient
+		// entity
+		patientResponseDto.setFirstName(admitPatient.getPatient().getFirstName());
+		patientResponseDto.setLastName(admitPatient.getPatient().getLastName());
+		patientResponseDto.setPhoneNumber(admitPatient.getPatient().getPhoneNumber());
+		patientResponseDto.setGender(admitPatient.getPatient().getGender());
+		patientResponseDto.setAge(admitPatient.getPatient().getAge());
+		patientResponseDto.setAddress(admitPatient.getPatient().getAddress());
+		patientResponseDto.setEmail(admitPatient.getPatient().getEmail());
+
+		// Set other properties as needed
+		return patientResponseDto;
+	}
 
 }
