@@ -18,21 +18,14 @@ import com.spti.entity.PatientOPDHistory;
 
 @Component
 public class AdmitPatientMapper {
-
+      
 	public AdmitPatient toEntity(AdmitPatientRequestDto dto) {
 		AdmitPatient entity = new AdmitPatient();
-
 		entity.setId(dto.getId());
+		entity.setAdmitDischargeStatus("Admit");
 		entity.setAdmitDischargeStatus(dto.getAdmitDischargeStatus());
 		entity.setAdmissionDate(dto.getAdmissionDate());
 		return entity;
-        
-	public AdmitPatient toEntity( AdmitPatientRequestDto dto) {
-		AdmitPatient entity = new AdmitPatient();		
-				entity.setId( dto.getId() );
-				entity.setAdmitDischargeStatus("Admit");
-				entity.setAdmissionDate( dto.getAdmissionDate() );		
-				return entity;
 
 	}
 
@@ -61,21 +54,12 @@ public class AdmitPatientMapper {
 		return patientResponseDto;
 	}
 
-
 	public List<AdmitPatientResponseDto> toList(List<AdmitPatient> content) {
 		List<AdmitPatientResponseDto> list = new ArrayList<>();
 		for (AdmitPatient dto : content)
 			list.add(toDto(dto));
 		return list;
 	}
-
-		public List<AdmitPatientResponseDto> toList( List<AdmitPatient> content ) {
-			List<AdmitPatientResponseDto> list = new ArrayList<>();
-			for ( AdmitPatient dto : content )
-				list.add( toDto( dto ) );
-			return list;
-		}
-		
 		
 		 public PatientResponseDto toPtientDto(Patient entity) { 
 			  
@@ -101,8 +85,6 @@ public class AdmitPatientMapper {
 			return dto;
 		}
 		
-		
-
 		public List<AdmitPatientResponseDto> toResponseList(List<AdmitPatient> list) {
 			List<AdmitPatientResponseDto> reslist = new ArrayList<>();
 			for (AdmitPatient dto : list) {
@@ -110,7 +92,6 @@ public class AdmitPatientMapper {
 			}
 			return reslist;
 		}
-
 
 	public List<PatientResponseDto> toPatientResponseDtoList(List<AdmitPatient> admitPatients) {
 		return admitPatients.stream().map(this::toPatientResponseDto).collect(Collectors.toList());
