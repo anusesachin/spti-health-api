@@ -8,44 +8,59 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
-@Getter
 @Entity
-@Table( name = "patients" )
+@Getter
+@Setter
+@Table(name = "patients")
 public class Patient {
 
-	@Id
-	@GeneratedValue( strategy = GenerationType.AUTO )
-	@Column( name = "patient_id" )
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "patient_id")
+    private Long id;
 
-	@Column( name = "first_name" )
-	private String firstName;
+    @NotBlank(message = "First name cannot be blank")
+    @Size(max = 255, message = "First name must be less than 255 characters")
+    @Column(name = "first_name")
+    private String firstName;
 
-	@Column( name = "last_name" )
-	private String lastName;
+    @NotBlank(message = "Last name cannot be blank")
+    @Size(max = 255, message = "Last name must be less than 255 characters")
+    @Column(name = "last_name")
+    private String lastName;
 
-	@Column( name = "gender" )
-	private String gender;
-	
-	@Column( name = "address" )
-	private String address;
+    @NotBlank(message = "Gender cannot be blank")
+    @Pattern(regexp = "^(Male|Female|Other)$", message = "Gender must be Male, Female, or Other")
+    @Column(name = "gender")
+    private String gender;
 
-	@Column( name = "age" )
-	private int age;
+    @Column(name = "address")
+    private String address;
 
-	@Column( name = "phone_number" )
-	private String phoneNumber;
+    @NotNull(message = "Age cannot be null")
+    @Column(name = "age")
+    private Integer age;
 
-	@Column( name = "email" )
-	private String email;
+    @NotBlank(message = "Phone number cannot be blank")
+    @Size(min = 10, max = 12, message = "Phone number must be between 10 and 12 characters")
+    @Pattern(regexp = "^\\d+$", message = "Phone number must contain only digits")
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
-	@ManyToOne
-	@JoinColumn( name = "branch" )
-	private Branch branch;
+    @Email(message = "Email should be valid")
+    @Column(name = "email")
+    private String email;
 
+    @ManyToOne
+    @JoinColumn(name = "branch")
+    private Branch branch;
 }

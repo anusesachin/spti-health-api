@@ -2,6 +2,8 @@ package com.spti.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +36,7 @@ public class OpdPatientController {
 	}
 
 	@PostMapping( "/history" )
-	public ResponseEntity<String> addOpdHistory( @RequestBody PatientOPDHistoryRequestDTO dto ) {
+	public ResponseEntity<String> addOpdHistory( @Valid @RequestBody PatientOPDHistoryRequestDTO dto ) {
 
 		boolean isAdded = opdPatientHistoryService.addOpdHistory( dto );
 		if ( isAdded )

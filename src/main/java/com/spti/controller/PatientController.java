@@ -50,7 +50,7 @@ public class PatientController {
 	}
 
 	@PostMapping
-	public ResponseEntity<String> createPatient( @RequestBody PatientRequestDto patientRequestDto ) {
+	public ResponseEntity<String> createPatient( @Valid @RequestBody PatientRequestDto patientRequestDto ) {
 		boolean isAdded = patientService.addPatient( patientRequestDto );
 		if ( isAdded )
 			return ResponseEntity.status( HttpStatus.CREATED ).body( MessageConstants.ADD_PATIENT_SUCCESS_MESSAGE );

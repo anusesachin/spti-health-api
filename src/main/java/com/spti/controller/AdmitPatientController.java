@@ -42,7 +42,7 @@ public class AdmitPatientController {
 	private AdmitPatientService admitPatientService;
 
 	@PostMapping
-	public ResponseEntity<String> AdmitPatientAdd(@RequestBody AdmitPatientRequestDto dto) {
+	public ResponseEntity<String> AdmitPatientAdd( @Valid @RequestBody AdmitPatientRequestDto dto) {
 		boolean isAdded = admitPatientService.AdmitPatientAdd(dto);
 		if (isAdded)
 			return ResponseEntity.status(HttpStatus.CREATED).body(MessageConstants.ADD_ADMISSION_SUCCESS_MESSAGE);
