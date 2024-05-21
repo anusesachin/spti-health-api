@@ -1,5 +1,7 @@
 package com.spti.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ public class DischargePatientController {
 	private DischargePatientService dischargePatientService;
 	
 	@PostMapping
-	public ResponseEntity<String> dischargePatienAdd(  @RequestBody DischargePatientRequestDto dto ) {
+	public ResponseEntity<String> dischargePatienAdd( @Valid @RequestBody DischargePatientRequestDto dto ) {
 		boolean isAdded = dischargePatientService.dischargePatienAdd( dto );
 		if ( isAdded )
 			return ResponseEntity.status( HttpStatus.CREATED ).body( MessageConstants.ADD_ADMISSION_SUCCESS_MESSAGE );
