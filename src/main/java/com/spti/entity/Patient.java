@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -23,44 +25,48 @@ import lombok.Setter;
 @Table(name = "patients")
 public class Patient {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "patient_id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "patient_id")
+	private Long id;
 
-    @NotBlank(message = "First name cannot be blank")
-    @Size(max = 255, message = "First name must be less than 255 characters")
-    @Column(name = "first_name")
-    private String firstName;
+	@NotBlank(message = "First name is mandatory")
+	@Size(max = 50, message = "First name can be at most 50 characters long")
+	@Column(name = "first_name")
+	private String firstName;
 
-    @NotBlank(message = "Last name cannot be blank")
-    @Size(max = 255, message = "Last name must be less than 255 characters")
-    @Column(name = "last_name")
-    private String lastName;
+	@NotBlank(message = "Last name is mandatory")
+	@Size(max = 50, message = "Last name can be at most 50 characters long")
+	@Column(name = "last_name")
+	private String lastName;
 
-    @NotBlank(message = "Gender cannot be blank")
-    @Pattern(regexp = "^(Male|Female|Other)$", message = "Gender must be Male, Female, or Other")
-    @Column(name = "gender")
-    private String gender;
+	@NotBlank(message = "Gender is mandatory")
+	// @Pattern(regexp = "Male|Female|Other", message = "Gender must be Male,Female,
+	// or Other")
+	@Column(name = "gender")
+	private String gender;
 
-    @Column(name = "address")
-    private String address;
+	@Size(max = 255, message = "Address can be at most 255 characters long")
+	@Column(name = "address")
+	private String address;
 
-    @NotNull(message = "Age cannot be null")
-    @Column(name = "age")
-    private Integer age;
+	@NotNull(message = "Age is mandatory")
+	@Min(value = 0, message = "Age must be greater than or equal to 0")
+	@Max(value = 120, message = "Age must be less than or equal to 120")
+	@Column(name = "age")
+	private Integer age;
 
-    @NotBlank(message = "Phone number cannot be blank")
-    @Size(min = 10, max = 12, message = "Phone number must be between 10 and 12 characters")
-    @Pattern(regexp = "^\\d+$", message = "Phone number must contain only digits")
-    @Column(name = "phone_number")
-    private String phoneNumber;
+	@NotBlank(message = "Phone number is mandatory")
+	@Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number isinvalid")
+	@Column(name = "phone_number")
+	private String phoneNumber;
 
-    @Email(message = "Email should be valid")
-    @Column(name = "email")
-    private String email;
+	@NotBlank(message = "Email is mandatory")
+	@Email(message = "Email should be valid")
+	@Column(name = "email")
+	private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "branch")
-    private Branch branch;
+	@ManyToOne
+	@JoinColumn(name = "branch")
+	private Branch branch;
 }

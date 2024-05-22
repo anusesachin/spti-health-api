@@ -39,7 +39,7 @@ public class AdmitPatient {
 	
 	@ManyToOne
 	@JoinColumn( name = "patient_id" )
-	@NotEmpty(message = "patient cannot be empty")
+	//@NotEmpty(message = "patient cannot be empty")
 	private Patient patient;
 	
 	@Column( name = "admit_Date" )
