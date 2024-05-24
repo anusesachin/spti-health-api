@@ -99,8 +99,7 @@ public class AdmitPatientMapper {
 
 	public PatientResponseDto toPatientResponseDto(AdmitPatient admitPatient) {
 		PatientResponseDto patientResponseDto = new PatientResponseDto();
-		// Assuming you have methods to retrieve patient information from AdmitPatient
-		// entity
+		
 		patientResponseDto.setFirstName(admitPatient.getPatient().getFirstName());
 		patientResponseDto.setLastName(admitPatient.getPatient().getLastName());
 		patientResponseDto.setPhoneNumber(admitPatient.getPatient().getPhoneNumber());
@@ -108,8 +107,8 @@ public class AdmitPatientMapper {
 		patientResponseDto.setAge(admitPatient.getPatient().getAge());
 		patientResponseDto.setAddress(admitPatient.getPatient().getAddress());
 		patientResponseDto.setEmail(admitPatient.getPatient().getEmail());
-
-		// Set other properties as needed
+		patientResponseDto.setAdmitDischargeStatus(admitPatient.getAdmitDischargeStatus());
+		
 		return patientResponseDto;
 	}
 
