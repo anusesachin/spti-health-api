@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 public class PatientOPDHistoryRequestDTO {
 
-    @NotNull(message = "ID is required")
+    
     private Long id;
 
     @NotBlank(message = "Seen by Doctor is required")
@@ -38,17 +38,14 @@ public class PatientOPDHistoryRequestDTO {
     private String bill;
 
     @NotBlank(message = "Bill Status is required")
-    @Pattern(regexp = "PAID|UNPAID", message = "Bill Status must be either PAID or UNPAID")
     private String billStatus;
 
-    @NotNull(message = "Patient ID is required")
+   
     private Long patientId;
 
-    @PositiveOrZero(message = "Branch must be zero or positive")
     private int branch;
 
-    @NotBlank(message = "Pending Amount is required")
-    @Pattern(regexp = "\\d+(\\.\\d{1,2})?", message = "Pending Amount must be a valid monetary amount")
+   @NotBlank(message = "Pending Amount is required")
     private String pendingAmount;
 
     @NotBlank(message = "Payment Type is required")
@@ -57,11 +54,9 @@ public class PatientOPDHistoryRequestDTO {
     @Size(max = 2000, message = "Note cannot be longer than 2000 characters")
     private String note;
 
-    @NotNull(message = "Treatment Date is required")
+   //@NotNull(message = "Treatment Date is required")
     private LocalDate treatmentDate;
     
-    @NotNull(message = "Date of Treatment is required")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @FutureOrPresent(message = "Date of Treatment must be in the present or future")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")   
     private LocalDateTime dateOfTreatment;
 }

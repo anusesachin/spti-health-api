@@ -18,4 +18,13 @@ public interface LoginDao extends CrudRepository<Login, Integer> {
 	@Transactional
 	@Query("UPDATE Login l SET l.role=:role WHERE l.username=:username")
 	void updateStatus(@Param("role") String role,@Param("username") String username);
+
+	Login findByPassword(String password);
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Login l SET l.role=:role WHERE l.password=:password")
+	void updateStatus1(@Param("role") String role,@Param("password") String password);
+
+	
 }

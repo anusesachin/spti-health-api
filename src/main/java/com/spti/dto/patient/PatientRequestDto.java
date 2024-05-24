@@ -20,11 +20,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PatientRequestDto {
 
-    @NotNull(message = "ID is required")
     private Long id;
 
-    @NotBlank(message = "First name is required")
-    @Size(max = 50, message = "First name cannot be longer than 50 characters")
+   @NotBlank(message = "First name is required")
+   @Size(max = 50, message = "First name cannot be longer than 50 characters")
     private String firstName;
 
     @NotBlank(message = "Last name is required")
@@ -32,8 +31,8 @@ public class PatientRequestDto {
     private String lastName;
 
     @NotBlank(message = "Gender is required")
-    @Pattern(regexp = "Male|Female|Other", message = "Gender must be Male, Female, or Other")
-    private String gender;
+
+	private String gender;
 
     @NotBlank(message = "Address is required")
     @Size(max = 255, message = "Address cannot be longer than 255 characters")
@@ -51,6 +50,5 @@ public class PatientRequestDto {
     @Email(message = "Email should be valid")
     private String email;
 
-    @PositiveOrZero(message = "Branch must be zero or positive")
     private int branch;
 }
