@@ -1,6 +1,7 @@
 package com.spti.service.impl;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,43 @@ public class OpdPatientHistoryServiceImpl implements OpdPatientHistoryService {
 	
 	@Autowired
 	private BillingUtility billingUtility;
+	
+	
+	@Override
+	public List<PatientOPDHistoryResponseDto> OpdPatientHistory(String disease, String todayrecord) {
+
+		System.out.println(todayrecord);
+
+		if (todayrecord.equalsIgnoreCase("todaypatient")) {
+			LocalDate date = LocalDate.now();
+			List<PatientOPDHistory> entityPage = opdPatientHistoryRepository.findByTreatmentDateAndDiagnosis(date, disease);
+			return opdHistoryMapper.gettoResponseList(entityPage);
+
+		} else if (todayrecord.equalsIgnoreCase("weekpatient")) {
+			LocalDate endDate = LocalDate.now();
+			LocalDate startDate = endDate.minusDays(6);
+			List<PatientOPDHistory> entityPage = opdPatientHistoryRepository
+					.findByTreatmentDateBetweenAndDiagnosis(startDate, endDate, disease);
+			return opdHistoryMapper.gettoResponseList(entityPage);
+
+		} else if (todayrecord.equalsIgnoreCase("monthlypatient")) {
+			LocalDate endDate = LocalDate.now();
+			LocalDate startDate = endDate.minusDays(30);
+			List<PatientOPDHistory> entityPage = opdPatientHistoryRepository
+					.findByTreatmentDateBetweenAndDiagnosis(startDate, endDate, disease);
+			return opdHistoryMapper.gettoResponseList(entityPage);
+
+		}else if (todayrecord.equalsIgnoreCase("AllPatient")) {
+			LocalDate endDate = LocalDate.now();
+			LocalDate startDate = endDate.minusDays(360);
+			List<PatientOPDHistory> entityPage = opdPatientHistoryRepository
+					.findByTreatmentDateBetweenAndDiagnosis(startDate, endDate, disease);
+			return opdHistoryMapper.gettoResponseList(entityPage);
+
+		} else {
+			return Collections.emptyList();
+		}
+	}
 
 	@Override
 	public List<PatientOPDHistoryResponseDto> getPatientOpdHistory(Long patientId) {

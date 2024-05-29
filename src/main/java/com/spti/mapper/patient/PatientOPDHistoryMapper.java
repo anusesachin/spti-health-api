@@ -106,6 +106,15 @@ public class PatientOPDHistoryMapper {
 		return dto;
 	}
 
-	
+	public List<PatientOPDHistoryResponseDto> gettoResponseList(List<PatientOPDHistory> entityPage) {
+		List<PatientOPDHistoryResponseDto> reslist = new ArrayList<>();
+		for (PatientOPDHistory dto : entityPage) {
+			reslist.add(toResponseDTO(dto));
+		}
+		return reslist;
+	}
 
 }
+	
+
+

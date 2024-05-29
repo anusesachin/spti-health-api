@@ -25,5 +25,10 @@ public interface OpdPatientHistoryService {
 	PatientOPDHistoryResponseDto opdPatienBillCashDashbord(String todayrecord);
 
 	public boolean updatePaidBill(PatientOPDHistoryRequestDTO dto);
+
+	public List<PatientOPDHistoryResponseDto> OpdPatientHistory(String disease, String todayrecord);
+	
+
+
 	
 }
