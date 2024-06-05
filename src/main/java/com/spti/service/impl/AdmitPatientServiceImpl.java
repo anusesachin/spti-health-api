@@ -59,9 +59,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 			Optional<Patient> opt = patientRepository.findById(dto.getPatientId());
 			if (opt.isPresent()) {
 				entity.setPatient(opt.get());
-				admitPatientRepository.save(entity);
-				LocalDate date = LocalDate.now();
-				admitPatientRepository.save( entity );
+				admitPatientRepository.save(entity);				
 				return true;
 			}
 		} catch (Exception e) {
@@ -140,7 +138,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 			return null;
 	}
 	@Override
-	public List<AdmitPatientResponseDto> GetTodayAdmitPatient(String todayrecord) {
+	public List<AdmitPatientResponseDto> getTodayAdmitPatient(String todayrecord) {
 		
 
 		    if (todayrecord.equalsIgnoreCase("Today OpdPatient And Bill")) {
@@ -169,7 +167,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
      
 	
 	@Override
-	public List<AdmitPatientResponseDto> GetTodayDischargePatient(String todayrecord) {
+	public List<AdmitPatientResponseDto> getTodayDischargePatient(String todayrecord) {
 		
 		if (todayrecord.equalsIgnoreCase("Today OpdPatient And Bill")) {
 			LocalDate date = LocalDate.now();
@@ -200,7 +198,7 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 
 	@Override
 	public List<PatientResponseDto> findAllPatient() {
-		List<AdmitPatient> patientResponseAllPateint= admitPatientRepository.findAll();
+		List<AdmitPatient> patientResponseAllPateint= admitPatientRepository.findAllAdmit();
 		if (patientResponseAllPateint != null)
 			return admitPatientMapper.toPatientResponseDtoList(patientResponseAllPateint);
 		else
@@ -215,20 +213,58 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 			List<AdmitPatient> entity = admitPatientRepository.findByPatientTodays(date);
 			return admitPatientMapper.toPatientResponseDtoList(entity);
 		} else if (todayrecord.equalsIgnoreCase("Weekly Patient")) {
-			LocalDate enddate = LocalDate.now();
+			LocalDate enddate = LocalDate.now().plusDays(1);
 			LocalDate startDate = enddate.minusDays(7);
 			List<AdmitPatient> entityPage = admitPatientRepository.findByAdmitDateBetween(startDate, enddate);
 			return admitPatientMapper.toPatientResponseDtoList(entityPage);
 		} else if (todayrecord.equalsIgnoreCase("Monthly Patient")) {
-			LocalDate enddate = LocalDate.now();
+			LocalDate enddate = LocalDate.now().plusDays(1);
 			LocalDate startDate = enddate.minusDays(31);
 			List<AdmitPatient> entityPage = admitPatientRepository.findByAdmitDateBetween(startDate, enddate);
 			return admitPatientMapper.toPatientResponseDtoList(entityPage);
-		} else {
+		} else if (todayrecord.equalsIgnoreCase("all patient")) {
+	        List<AdmitPatient> entityPage = admitPatientRepository.findAllAdmit();
+	        return admitPatientMapper.toPatientResponseDtoList(entityPage);
+	    } else {
 			
 			return Collections.emptyList();
 		}
 	}
+
 	
+	@Override
+	public List<AdmitPatientResponseDto> getTodayWeeklyMonthlyDischargePatient(String todayrecord) {
+	    if (todayrecord.equalsIgnoreCase("Today Patient")) {
+	        LocalDate date = LocalDate.now();
+	        List<AdmitPatient> entityPage = admitPatientRepository.findGetByAdmissionDateAndAdmitDischargeStatus(date, "Discharge");
+	        return admitPatientMapper.toResponseList(entityPage);
+	    } else if (todayrecord.equalsIgnoreCase("weekly Patient")) {
+	        LocalDate endDate = LocalDate.now().plusDays(1);
+	        LocalDate startDate = endDate.minusDays(7);
+	        List<AdmitPatient> entityPage = admitPatientRepository.findGetAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate, endDate, "Discharge");
+	        return admitPatientMapper.toResponseList(entityPage);
+	    } else if (todayrecord.equalsIgnoreCase("all patient")) {
+	        List<AdmitPatient> entityPage = admitPatientRepository.findAllDischargePatients();
+	        return admitPatientMapper.toResponseList(entityPage);
+	    } else {
+	        LocalDate endDate = LocalDate.now().plusDays(1);
+	        LocalDate startDate = endDate.minusDays(30);
+	        List<AdmitPatient> entityPage = admitPatientRepository.findGetAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(startDate, endDate, "Discharge");
+	        return admitPatientMapper.toResponseList(entityPage);
+	    }
+	}
+
+//	@Override
+//	public List<AdmitPatientResponseDto> getPatientsBetweenStartToEndDates(String todayrecord) {
+//		LocalDate endDate = LocalDate.now().plusDays(1);
+//        LocalDate startDate = endDate.minusDays(30);
+//        List<AdmitPatient> entityPage = admitPatientRepository.findByStartAndEndDate(startDate ,endDate);
+//        
+//        
+//		return admitPatientMapper.toResponseList(entityPage);
+//	}
+
+
+
 
 }

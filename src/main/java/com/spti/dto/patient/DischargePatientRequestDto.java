@@ -50,5 +50,5 @@ public class DischargePatientRequestDto {
 	private Long amounttobePaid;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-	private LocalDateTime dischargeDate;
+	private LocalDateTime dischargedAt;
 }

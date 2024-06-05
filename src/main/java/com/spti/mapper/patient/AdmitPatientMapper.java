@@ -68,6 +68,11 @@ public class AdmitPatientMapper {
 			  patient.setFirstName(entity.getFirstName());
 			  patient.setLastName(entity.getLastName());
 			  patient.setPhoneNumber(entity.getPhoneNumber());
+			  patient.setAddress(entity.getAddress());
+			  patient.setGender(entity.getGender());
+			  patient.setAge(entity.getAge());
+			  patient.setEmail(entity.getEmail());
+			  
 			  
 			  return patient;
 			  
@@ -81,7 +86,7 @@ public class AdmitPatientMapper {
          dto.setAdmissionDate(entity.getAdmissionDate());
          dto.setAdmitDischargeStatus(entity.getAdmitDischargeStatus());
          dto.setPatient(toPtientDto(entity.getPatient()));
-			
+         dto.setDischargedAt(entity.getDischargedAt());        
 			return dto;
 		}
 		
