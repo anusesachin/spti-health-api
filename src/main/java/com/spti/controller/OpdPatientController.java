@@ -29,6 +29,15 @@ public class OpdPatientController {
 
 	@Autowired
 	private OpdPatientHistoryService opdPatientHistoryService;
+	
+	
+	@GetMapping("/todayOpdPatientHistory/{disease}/{todayrecord}")
+	public List<PatientOPDHistoryResponseDto> GetOpdPatientHistory(@PathVariable String disease,
+			@PathVariable String todayrecord) {
+
+		return opdPatientHistoryService.OpdPatientHistory(disease,todayrecord);
+
+	}
 
 	@GetMapping( "/patients/{patientId}" )
 	public ResponseEntity<List<PatientOPDHistoryResponseDto>> patientOpdHistory( @PathVariable Long patientId ) {
@@ -94,5 +103,7 @@ public class OpdPatientController {
 //		
 //		return ResponseEntity.status( HttpStatus.OK ).body( opdPatientHistoryService.opdPatienTotalBill( ) );
 //	}
+	
+
 }
 
