@@ -35,23 +35,23 @@ public class DischargePatient {
     @Column(name = "IPD_No")
     private Long IPD_No;
 
-    @NotBlank(message = "Consultant cannot be blank")
+    
     @Column(name = "consultant")
     private String consultant;
 
-    @NotBlank(message = "Diagnosis cannot be blank")
+  //  @NotBlank(message = "Diagnosis cannot be blank")
     @Column(name = "diagnosis")
     private String diagnosis;
 
     @Column(name = "clinical_History")
     private String clinicalHistory;
 
-    @NotNull(message = "Admit patient cannot be null")
+    
     @ManyToOne
     @JoinColumn(name = "admit_Patient_id")
     private AdmitPatient admitPatient;
 
-    @NotNull(message = "Patient cannot be null")
+    
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;

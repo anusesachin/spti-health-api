@@ -28,14 +28,18 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public LoginResponceDto login( LoginRequestDto dto ) {
 		Login login = loginDao.findByUsername( dto.getUsername() );
+		Login pass = loginDao.findByPassword( dto.getPassword() );
+		
 		if ( login != null ) {
+			
+			if (pass != null) {
 			LoginResponceDto temp = loginmapper.toEntity( login );
 			temp.setStatus( "Active" );
 			temp.setName( "Sonam Kothari" );
 			temp.setBranchId( 1 );
 			temp.setBranchName( "Bhadgao" );
 			return temp;
-		}
+		}}
 		return null;
 	}
 
