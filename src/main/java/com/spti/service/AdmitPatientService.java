@@ -40,8 +40,12 @@ public interface AdmitPatientService {
 
 	List<PatientResponseDto> getListOfPatient(String todayrecord);
 
-	List<AdmitPatientResponseDto> GetTodayAdmitPatient(String todayrecord);
+	List<AdmitPatientResponseDto> getTodayAdmitPatient(String todayrecord);
 
-	List<AdmitPatientResponseDto> GetTodayDischargePatient(String todayrecord);
+	List<AdmitPatientResponseDto> getTodayDischargePatient(String todayrecord);
+
+	List<AdmitPatientResponseDto> getTodayWeeklyMonthlyDischargePatient(String todayrecord);
+
+	//List<AdmitPatientResponseDto> getPatientsBetweenStartToEndDates(String todayrecord);
 
 }

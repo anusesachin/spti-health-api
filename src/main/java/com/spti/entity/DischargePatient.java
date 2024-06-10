@@ -39,7 +39,7 @@ public class DischargePatient {
     @Column(name = "consultant")
     private String consultant;
 
-    @NotBlank(message = "Diagnosis cannot be blank")
+  //  @NotBlank(message = "Diagnosis cannot be blank")
     @Column(name = "diagnosis")
     private String diagnosis;
 

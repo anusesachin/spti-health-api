@@ -21,7 +21,7 @@ public class DischargePatientMapper {
 		entity.setAdmitDischargeStatus(dto.getAdmitDischargeStatus());
 		entity.setAmountPaid(dto.getAmountPaid());
 		entity.setAmounttobePaid(dto.getAmounttobePaid());
-		entity.setDischargedAt(dto.getDischargeDate());
+		entity.setDischargedAt(dto.getDischargedAt());
 		
 		
 		return entity;
