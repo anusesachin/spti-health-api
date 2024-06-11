@@ -42,15 +42,13 @@ public interface OpdPatientHistoryRepository extends CrudRepository<PatientOPDHi
 
 	List<PatientOPDHistory> findByTreatmentDateBetweenAndPaymentType(LocalDate startDate, LocalDate enddate,String paymentType);
 
-	List<PatientOPDHistory> findByTreatmentDateAndDiagnosis(LocalDate date, String disease);
 
-	List<PatientOPDHistory> findByTreatmentDateBetweenAndDiagnosis(LocalDate startDate, LocalDate endDate,
-			String disease);
-
+	 @Query("SELECT poh FROM PatientOPDHistory poh JOIN poh.diagnosis d WHERE poh.treatmentDate = :date AND d.diagnosis = :disease")
+	 List<PatientOPDHistory> findByTreatmentDateAndDiagnosis(@Param("date") LocalDate date, @Param("disease") String disease);
 	
-
-
-
+	 @Query("SELECT poh FROM PatientOPDHistory poh JOIN poh.diagnosis d WHERE poh.treatmentDate BETWEEN :startDate AND :endDate AND d.diagnosis = :disease")
+	 List<PatientOPDHistory> findByTreatmentDateBetweenAndDiagnosis(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("disease") String disease);
+	
 	
 
 }

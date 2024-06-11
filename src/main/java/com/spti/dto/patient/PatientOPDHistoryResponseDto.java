@@ -7,6 +7,7 @@ import javax.persistence.Column;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.spti.entity.Diagnosis;
 import com.spti.entity.Patient;
 
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class PatientOPDHistoryResponseDto {
 
 	private Long id;
 	private String seenByDoctor;
-	private String diagnosis;
+	private DiagnosisResponseDto diagnosis;
 	private String treatment;
 	private String bill;
 	private String billStatus;
@@ -36,7 +37,6 @@ public class PatientOPDHistoryResponseDto {
 	
 	@DateTimeFormat( pattern = "yyyy-MM-dd" )
 	private LocalDateTime dateOfTreatment;
-
 	
 	
 }

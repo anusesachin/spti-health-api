@@ -35,7 +35,7 @@ public class OpdPatientController {
 	public List<PatientOPDHistoryResponseDto> GetOpdPatientHistory(@PathVariable String disease,
 			@PathVariable String todayrecord) {
 
-		return opdPatientHistoryService.OpdPatientHistory(disease, todayrecord);
+		return opdPatientHistoryService.OpdPatientHistory(disease,todayrecord);
 
 	}
 

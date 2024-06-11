@@ -31,22 +31,26 @@ CREATE TABLE hospital.patients (
     FOREIGN KEY (branch) REFERENCES hospital.branch(id)
 );
 
+CREATE TABLE diagnosis (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    diagnosis VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE patients_opd_history (
     id BIGINT NOT NULL AUTO_INCREMENT,
-    seenByDoctor VARCHAR(255),
-    diagnosis VARCHAR(255),
+    seen_by_doctor VARCHAR(255),
+    diagnosis_id BIGINT,
     treatment VARCHAR(255),
     bill VARCHAR(255),
     pending_amount VARCHAR(45),
-    bill_Status VARCHAR(255),
+    bill_status VARCHAR(255),
     date_of_treatment TIMESTAMP,
     patient_id INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (patient_id) REFERENCES patients(patient_id)
+    FOREIGN KEY (patient_id) REFERENCES patients(patient_id),
+    FOREIGN KEY (diagnosis_id) REFERENCES diagnosis(id)
 );
-
-ALTER TABLE `hospital`.`patients_opd_history` 
-CHANGE COLUMN `seenByDoctor` `seen_by_doctor` VARCHAR(255) NULL DEFAULT NULL ;
 
 ALTER TABLE `hospital`.`patients_opd_history` 
 ADD COLUMN `treatment_Date` DATE NULL AFTER `bill_Status`;

@@ -36,10 +36,10 @@ public interface AdmitPatientRepository extends JpaRepository<AdmitPatient, Long
 	@Query(value = "SELECT * FROM hospital.admit_patient WHERE YEAR(admit_date) = :year", nativeQuery = true)
 	List<AdmitPatient> findByYear(@Param("year") int year);
 
-	@Query(value = "SELECT * FROM hospital.admit_patient WHERE admit_date >= :startDate AND admit_date < :endDate", nativeQuery = true)
+	@Query(value = "SELECT * FROM hospital.admit_patient WHERE admit_and_discharge_status = 'Admit' AND admit_date >= :startDate AND admit_date < :endDate", nativeQuery = true)
 	List<AdmitPatient> findByAdmitDateBetween(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 	
-	@Query(value = "SELECT * FROM hospital.admit_patient WHERE DATE(admit_date) = :date", nativeQuery = true)
+	@Query(value = "SELECT * FROM hospital.admit_patient WHERE admit_and_discharge_status = 'Admit' AND DATE(admit_date) = :date", nativeQuery = true)
 	List<AdmitPatient> findByPatientTodays(@Param("date") LocalDate date);
 
     // Discharge Query
@@ -52,7 +52,30 @@ public interface AdmitPatientRepository extends JpaRepository<AdmitPatient, Long
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate,
             @Param("status") String status);
- 
+
+    @Query(value = "SELECT * FROM hospital.admit_patient WHERE discharged_at BETWEEN :startDate AND :endDate AND admit_and_discharge_status = :status", nativeQuery = true)
+    List<AdmitPatient> findGetAdmitPatientListBetweenAdmissionDateAndAdmitDischargeStatus(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("status") String status);
+
+    @Query(value = "SELECT * FROM hospital.admit_patient WHERE DATE(discharged_at) = :date AND admit_and_discharge_status = :status", nativeQuery = true)
+    List<AdmitPatient> findGetByAdmissionDateAndAdmitDischargeStatus(@Param("date") LocalDate date, @Param("status") String status);
+    
+    @Query(value = "SELECT * FROM hospital.admit_patient WHERE admit_and_discharge_status = 'Discharge'", nativeQuery = true)
+    List<AdmitPatient> findAllDischargePatients();
+   
+    @Query(value = "SELECT * FROM hospital.admit_patient WHERE admit_and_discharge_status = 'Admit'", nativeQuery = true)
+	List<AdmitPatient> findAllAdmit();
+
+	//List<AdmitPatient> findByStartAndEndDate(LocalDate startDate, LocalDate endDate);
+
+
+
+
+
+
+
+
+
+
 
 }
 	

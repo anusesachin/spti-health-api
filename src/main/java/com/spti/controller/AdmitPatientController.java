@@ -123,6 +123,8 @@ public class AdmitPatientController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(admitPatientRandomDates);
 	}
 	
+
+	
 	@GetMapping("/getAllPatient")
 	public ResponseEntity<List<PatientResponseDto>> getAllPatients(){
 		List<PatientResponseDto> patientResponseAllPatients = admitPatientService.findAllPatient();
@@ -142,16 +144,34 @@ public class AdmitPatientController {
 	}
 
 	@GetMapping( "/todayAdmitPatientDashbord/{todayrecord}" )
-	public List<AdmitPatientResponseDto> GetTodayAdmitPatient(@PathVariable String todayrecord  ) {
+	public List<AdmitPatientResponseDto> getTodayAdmitPatient(@PathVariable String todayrecord  ) {
 		
-		return  admitPatientService.GetTodayAdmitPatient(todayrecord);
+		return  admitPatientService.getTodayAdmitPatient(todayrecord);
 	}
 	  
 	@GetMapping( "/disacharge/todayDischargePatientDashbord/{todayrecord}" )
-	public List<AdmitPatientResponseDto> GetTodayDischargePatient(@PathVariable String todayrecord  ) {
+	public List<AdmitPatientResponseDto> getTodayDischargePatient(@PathVariable String todayrecord  ) {
 		System.out.println("Work");  
-		return  admitPatientService. GetTodayDischargePatient(todayrecord);
+		return  admitPatientService. getTodayDischargePatient(todayrecord);
 		
 	}
+	
+	@GetMapping( "/disacharge/todayWeeklyMonthlyDischargePatient/{todayrecord}" )
+	public List<AdmitPatientResponseDto> getTodayWeeklyMonthyDischargePatient(@PathVariable String todayrecord  ) {  
+		return  admitPatientService. getTodayWeeklyMonthlyDischargePatient(todayrecord);
+		
+	}
+	
+//	
+//	@GetMapping("/getdataWithStartAndEndDate/{todayrecord}")
+//	public ResponseEntity<List<AdmitPatientResponseDto>> getdataWithStartAndToDates(@PathVariable String todayrecord) {
+//		List<AdmitPatientResponseDto> admitPatientRandomDates = admitPatientService.getPatientsBetweenStartToEndDates(todayrecord);
+//		if (admitPatientRandomDates != null)
+//			return ResponseEntity.status(HttpStatus.OK).body(admitPatientRandomDates);
+//		else
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(admitPatientRandomDates);
+//	}
+	
+
 
 }

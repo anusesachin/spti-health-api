@@ -40,7 +40,6 @@ public class OpdPatientHistoryServiceImpl implements OpdPatientHistoryService {
 	@Override
 	public List<PatientOPDHistoryResponseDto> OpdPatientHistory(String disease, String todayrecord) {
 
-		System.out.println(todayrecord);
 
 		if (todayrecord.equalsIgnoreCase("todaypatient")) {
 			LocalDate date = LocalDate.now();
