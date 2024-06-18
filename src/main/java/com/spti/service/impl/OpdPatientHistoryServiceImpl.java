@@ -36,41 +36,32 @@ public class OpdPatientHistoryServiceImpl implements OpdPatientHistoryService {
 	@Autowired
 	private BillingUtility billingUtility;
 	
-	
+
 	@Override
-	public List<PatientOPDHistoryResponseDto> OpdPatientHistory(String disease, String todayrecord) {
+	public List<PatientOPDHistoryResponseDto> opdPatientHistory(String disease, String todayrecord, String ages) {
+	    LocalDate startDate;
+	    LocalDate endDate;
 
+	    if (todayrecord.equalsIgnoreCase("todaypatient")) {
+	        LocalDate date = LocalDate.now();
+	        return opdHistoryMapper.gettoResponseList(opdPatientHistoryRepository.findByTreatmentDateAndDiagnosisAndAge(date, disease, ages));
+	        
+	    } else if (todayrecord.equalsIgnoreCase("weekpatient")) {
+	        endDate = LocalDate.now();
+	        startDate = endDate.minusDays(6);
+	    } else if (todayrecord.equalsIgnoreCase("monthlypatient")) {
+	        endDate = LocalDate.now();
+	        startDate = endDate.minusDays(30);
+	    } else if (todayrecord.equalsIgnoreCase("AllPatient")) {
+	        endDate = LocalDate.now();
+	        startDate = endDate.minusDays(360);
+	    } else {
+	        return Collections.emptyList();
+	    }
 
-		if (todayrecord.equalsIgnoreCase("todaypatient")) {
-			LocalDate date = LocalDate.now();
-			List<PatientOPDHistory> entityPage = opdPatientHistoryRepository.findByTreatmentDateAndDiagnosis(date, disease);
-			return opdHistoryMapper.gettoResponseList(entityPage);
-
-		} else if (todayrecord.equalsIgnoreCase("weekpatient")) {
-			LocalDate endDate = LocalDate.now();
-			LocalDate startDate = endDate.minusDays(6);
-			List<PatientOPDHistory> entityPage = opdPatientHistoryRepository
-					.findByTreatmentDateBetweenAndDiagnosis(startDate, endDate, disease);
-			return opdHistoryMapper.gettoResponseList(entityPage);
-
-		} else if (todayrecord.equalsIgnoreCase("monthlypatient")) {
-			LocalDate endDate = LocalDate.now();
-			LocalDate startDate = endDate.minusDays(30);
-			List<PatientOPDHistory> entityPage = opdPatientHistoryRepository
-					.findByTreatmentDateBetweenAndDiagnosis(startDate, endDate, disease);
-			return opdHistoryMapper.gettoResponseList(entityPage);
-
-		}else if (todayrecord.equalsIgnoreCase("AllPatient")) {
-			LocalDate endDate = LocalDate.now();
-			LocalDate startDate = endDate.minusDays(360);
-			List<PatientOPDHistory> entityPage = opdPatientHistoryRepository
-					.findByTreatmentDateBetweenAndDiagnosis(startDate, endDate, disease);
-			return opdHistoryMapper.gettoResponseList(entityPage);
-
-		} else {
-			return Collections.emptyList();
-		}
+	    return opdHistoryMapper.gettoResponseList(opdPatientHistoryRepository.findByTreatmentDateBetweenAndDiagnosisAndAge(startDate, endDate, disease, ages));
 	}
+
 
 	@Override
 	public List<PatientOPDHistoryResponseDto> getPatientOpdHistory(Long patientId) {
