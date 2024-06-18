@@ -1,5 +1,6 @@
 package com.spti.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -31,12 +32,15 @@ public class OpdPatientController {
 	private OpdPatientHistoryService opdPatientHistoryService;
 	
 	
-	@GetMapping("/todayOpdPatientHistory/{disease}/{todayrecord}")
-	public List<PatientOPDHistoryResponseDto> GetOpdPatientHistory(@PathVariable String disease,
-			@PathVariable String todayrecord) {
+	@GetMapping("/todayOpdPatientHistory/{disease}/{todayrecord}/{ages}")
+	public List<PatientOPDHistoryResponseDto> getOpdPatientHistory(@PathVariable String disease,@PathVariable String todayrecord, @PathVariable String ages) {
 
-		return opdPatientHistoryService.OpdPatientHistory(disease,todayrecord);
-
+		List<PatientOPDHistoryResponseDto> opdPatientHistorys = opdPatientHistoryService.opdPatientHistory(disease,todayrecord, ages);
+		if (opdPatientHistorys == null || opdPatientHistorys.isEmpty()) {
+			return Collections.emptyList();
+		} else {
+			return opdPatientHistorys;
+		}
 	}
 
 	@GetMapping( "/patients/{patientId}" )
