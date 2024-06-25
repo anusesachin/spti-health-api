@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -58,7 +59,7 @@ public class PatientOPDHistory {
 	private Patient patient;
 
 	@Column(name = "date_of_treatment")
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+//	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime dateOfTreatment;
 
     @Column(name = "treatment_date")
