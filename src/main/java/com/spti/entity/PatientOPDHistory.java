@@ -35,16 +35,16 @@ public class PatientOPDHistory {
 	private Long id;
 
 	@Column(name = "seen_by_doctor")
-	@NotNull(message = "Seen by doctor cannot be null")
+//	@NotNull(message = "Seen by doctor cannot be null")
 	private String seenByDoctor;
 
 	@Column(name = "treatment")
-	@NotNull(message = "Treatment cannot be null")
-	@Size(max = 255, message = "Treatment must be less than 255 characters")
+//	@NotNull(message = "Treatment cannot be null")
+	//@Size(max = 255, message = "Treatment must be less than 255 characters")
 	private String treatment;
 
 	@Column(name = "bill")
-	@NotNull(message = "Bill cannot be null")
+//	@NotNull(message = "Bill cannot be null")
 	private String bill;
 
 
