@@ -38,6 +38,7 @@ public class PatientOPDHistoryMapper {
 	  patient.setFirstName(entity.getFirstName());
 	  patient.setLastName(entity.getLastName());
 	  patient.setPhoneNumber(entity.getPhoneNumber());
+	  patient.setAge(entity.getAge());
 	  
 	  return patient;
 	  

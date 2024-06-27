@@ -59,7 +59,7 @@ public class PatientOPDHistory {
 	private Patient patient;
 
 	@Column(name = "date_of_treatment")
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+//	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
 	private LocalDateTime dateOfTreatment;
 
     @Column(name = "treatment_date")
