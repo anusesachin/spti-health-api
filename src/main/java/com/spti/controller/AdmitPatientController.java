@@ -63,6 +63,13 @@ public class AdmitPatientController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(admitPatientService.allAdmitPatients(PageRequest.of(pageNo, 50)));
 	}
+	
+	@GetMapping("/getAllDischargePatients")
+	public ResponseEntity<Page<AdmitPatientResponseDto>> allDischargePatients(@RequestBody @RequestParam int pageNo,
+			Pageable pageable) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(admitPatientService.allDischargePatients(PageRequest.of(pageNo, 50)));
+	}
 
 	@PostMapping("/treatment/{id}")
 	public ResponseEntity<String> addAdmittedPatientTreatmentDetails(
@@ -162,6 +169,7 @@ public class AdmitPatientController {
 		
 	}
 	
+
 //	
 //	@GetMapping("/getdataWithStartAndEndDate/{todayrecord}")
 //	public ResponseEntity<List<AdmitPatientResponseDto>> getdataWithStartAndToDates(@PathVariable String todayrecord) {

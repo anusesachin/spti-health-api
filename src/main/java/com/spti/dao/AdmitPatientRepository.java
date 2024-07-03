@@ -15,6 +15,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.spti.dto.patient.AdmitPatientResponseDto;
 import com.spti.dto.patient.PatientResponseDto;
 import com.spti.entity.AdmitPatient;
 import com.spti.entity.PatientOPDHistory;
@@ -64,6 +66,7 @@ public interface AdmitPatientRepository extends JpaRepository<AdmitPatient, Long
    
     @Query(value = "SELECT * FROM hospital.admit_patient WHERE admit_and_discharge_status = 'Admit'", nativeQuery = true)
 	List<AdmitPatient> findAllAdmit();
+
 
 	//List<AdmitPatient> findByStartAndEndDate(LocalDate startDate, LocalDate endDate);
 

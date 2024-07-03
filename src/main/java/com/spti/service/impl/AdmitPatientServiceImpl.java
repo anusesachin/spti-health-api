@@ -49,6 +49,9 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 
 	@Autowired
 	private TreatmentRepository treatmentRepository;
+	
+	
+
 
 	@Override  
 	public boolean AdmitPatientAdd( AdmitPatientRequestDto dto) {
@@ -85,6 +88,14 @@ public class AdmitPatientServiceImpl implements AdmitPatientService {
 	public Page<AdmitPatientResponseDto> allAdmitPatients(Pageable pageable) {
 
 		Page<AdmitPatient> entityPage = admitPatientRepository.findByAdmitDischargeStatus("Admit", pageable);
+		return new PageImpl<>(admitPatientMapper.toList(entityPage.getContent()), pageable,
+				entityPage.getTotalElements());
+	}
+	
+	@Override
+	public Page<AdmitPatientResponseDto> allDischargePatients(Pageable pageable) {
+
+		Page<AdmitPatient> entityPage = admitPatientRepository.findByAdmitDischargeStatus("Discharge", pageable);
 		return new PageImpl<>(admitPatientMapper.toList(entityPage.getContent()), pageable,
 				entityPage.getTotalElements());
 	}

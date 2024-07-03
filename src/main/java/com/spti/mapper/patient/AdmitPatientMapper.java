@@ -35,6 +35,7 @@ public class AdmitPatientMapper {
 		admitPatientResponseDto.setAdmitDischargeStatus(admitPatient.getAdmitDischargeStatus());
 		admitPatientResponseDto.setAdmissionDate(admitPatient.getAdmissionDate());
 		admitPatientResponseDto.setPatient(topatientResponesDto(admitPatient.getPatient()));
+		admitPatientResponseDto.setAmounttobePaid(admitPatient.getAmounttobePaid());
 
 		return admitPatientResponseDto;
 	}
@@ -86,7 +87,8 @@ public class AdmitPatientMapper {
          dto.setAdmissionDate(entity.getAdmissionDate());
          dto.setAdmitDischargeStatus(entity.getAdmitDischargeStatus());
          dto.setPatient(toPtientDto(entity.getPatient()));
-         dto.setDischargedAt(entity.getDischargedAt());        
+         dto.setDischargedAt(entity.getDischargedAt()); 
+         dto.setAmounttobePaid(entity.getAmounttobePaid());
 			return dto;
 		}
 		
